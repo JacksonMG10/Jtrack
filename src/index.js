@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const iaRoutes = require('./routes/iaRoutes');
 require('dotenv').config();
 
 const db = require('./config/db'); 
@@ -14,16 +16,23 @@ const tutorialRoutes = require('./routes/tutorialRoutes');
 
 const app = express();
 
-// Middlewares
+// === MIDDLEWARES ===
 app.use(cors()); 
 app.use(express.json());
 
+/** * CONFIGURACIÓN DE CARPETA PÚBLICA 
+ * Esto permite que React pueda acceder a las fotos guardadas en 'uploads'
+ * usando la URL http://localhost:3000/uploads/nombre_de_la_foto.jpg
+ */
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+
 // === USAR RUTAS ===
+app.use('/api/ia', iaRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/vehiculos', vehiculoRoutes);
 app.use('/api/mantenimientos', mantenimientoRoutes);
 app.use('/api/recordatorios', recordatorioRoutes);
-app.use('/api/publicaciones', publicacionRoutes);
+app.use('/api/publicaciones', publicacionRoutes); // Ruta para el muro y comentarios
 app.use('/api/tutoriales', tutorialRoutes);
 
 // Ruta de prueba
@@ -31,8 +40,11 @@ app.get('/', (req, res) => {
     res.send('¡Bienvenido a la API REST de JTRACK!');
 });
 
+// Configuración del Puerto
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor de JTRACK corriendo en http://localhost:${PORT}`);
+    console.log(`=================================================`);
+    console.log(`🚀 Servidor de JTRACK corriendo en puerto ${PORT}`);
+    console.log(`📂 Carpeta de subidas lista en: /uploads`);
+    console.log(`=================================================`);
 });
-
