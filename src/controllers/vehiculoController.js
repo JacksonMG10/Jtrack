@@ -10,7 +10,7 @@ exports.registrarVehiculo = async (req, res) => {
             vencimiento_soat, vencimiento_tecnomecanica // <-- NUEVOS CAMPOS
         } = req.body;
         
-        // ¡Magia! El id_usuario ya no viene del frontend, viene del Token validado por nuestro middleware
+        // id_usuario ya no viene del frontend, viene del Token validado por nuestro middleware
         const id_usuario = req.usuario.id_usuario;
 
         // 2. Adaptamos el año para la base de datos
@@ -35,8 +35,8 @@ exports.registrarVehiculo = async (req, res) => {
                 transmision, 
                 cilindraje ? parseInt(cilindraje) : null,
                 vin || null,
-                vencimiento_soat || null,           // <-- NUEVO
-                vencimiento_tecnomecanica || null   // <-- NUEVO
+                vencimiento_soat || null,          
+                vencimiento_tecnomecanica || null  
             ]
         );
 
