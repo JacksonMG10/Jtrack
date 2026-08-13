@@ -118,3 +118,17 @@ exports.obtenerPerfil = async (req, res) => {
         res.status(500).json({ mensaje: 'Error al obtener el perfil' });
     }
 };
+
+// 4. OBTENER TODOS LOS USUARIOS (Para sugerencias en el foro)
+exports.obtenerTodos = async (req, res) => {
+    try {
+        // Solo traemos datos públicos para no exponer contraseñas
+        const [usuarios] = await db.query(
+            'SELECT id_usuario, nombre, apellido, correo, tipo_usuario FROM USUARIO'
+        );
+        res.json(usuarios);
+    } catch (error) {
+        console.error('Error al obtener todos los usuarios:', error);
+        res.status(500).json({ mensaje: 'Hubo un error al obtener la lista de usuarios' });
+    }
+};

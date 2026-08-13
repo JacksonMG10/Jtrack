@@ -13,4 +13,7 @@ router.post('/login', usuarioController.iniciarSesion);
 // El usuario debe enviar su Token para entrar aquí
 router.get('/perfil', authMiddleware, usuarioController.obtenerPerfil);
 
+// 4. Ruta para obtener todos los usuarios (Pública o protegida, según prefieras)
+router.get('/', usuarioController.obtenerTodos);
+
 module.exports = router;
